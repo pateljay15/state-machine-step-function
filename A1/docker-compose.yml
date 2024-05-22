@@ -6,7 +6,7 @@ services:
     ports:
       - 6000:6000
     volumes:
-      - .:/app/files
+      - .:/files
     networks:
       - microservice-first-second
     depends_on:
@@ -19,7 +19,7 @@ services:
     ports:
       - 6060:6060
     volumes:
-      - .:/app/files
+      - .:/files
     networks:
       - microservice-first-second
 
