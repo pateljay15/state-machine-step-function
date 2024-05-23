@@ -22,17 +22,25 @@ app.post("/micro-sum", (req, res) => {
         .pipe(csv({ separator: ',',  strict: true}))
         .on('data', (data) => products.push(data))
         .on('end', () => {
-            for (let proObj of products) {
+            if(products.length > 0) {
+                for (let proObj of products) {
 
-                if (proObj.product.trim().toLowerCase() == req.body.product.trim().toLowerCase()) {
-                    sum = sum + parseInt(proObj.amount.trim())
+                    if (proObj.product.trim().toLowerCase() == req.body.product.trim().toLowerCase()) {
+                        sum = sum + parseInt(proObj.amount.trim())
+                    }
                 }
+            } else {
+                return res.status(400).json({
+                    file: req.body.file,
+                    error: "Input file not in CSV format."
+                })
             }
-                
+
             res.status(200).json({
                 file: req.body.file,
                 sum: sum
             })
+            
         })
         .on('error', () => {
             return res.status(400).json({
